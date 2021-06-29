@@ -30,8 +30,7 @@
   <button id="submit" class="btn-primary" onclick="filterUsers()">Search</button>
  </div>
 <!--dropdown for extracting -->
-<div class="container-fluid p-2">
-  
+<div class="container-fluid p-2"> 
   
   <select id="dropdowns">
     <option></option>
@@ -40,6 +39,20 @@
   </select>
   <button id="extract" class="btn-secondary" onclick="extractNamesAddresses()">Extract</button>
  </div>
+
+<!--sort users -->
+<div class="container-fluid p-2"> 
+  
+  <select id="dropdownsort">
+    <option></option>
+    <option value="asc">Ascending</option>
+    <option value="des">Descending</option>
+  </select>
+  <button id="sort" class="btn-danger" onclick="sortUsers()">Sort</button>
+ </div>
+
+
+ <!--TABLE -->
   <table id="table" class="bg-primary">
 
     <tr>
@@ -168,7 +181,46 @@ const filterUsers = () => {
    }
   }
 
- 
+ // Ex5) Add a button that sorts the list by name ascending / descending (ONE button)
+const sortUsers = () => {
+  let users = usersArray
+   console.log(users)
+   let dropdownSortValue = document.getElementById("dropdownsort").value
+   table.innerHTML = `<tr>
+      <th class="px-5">ID</th>
+      <th class="px-5">Username</th>
+      <th class="px-5">Name</th>
+      <th class="px-5">Email</th>
+    </tr>`
+
+
+   if (dropdownSortValue === "asc") {
+
+  let results = users.sort(function(a, b){
+  let x = a.name.toLowerCase();
+  let y = b.name.toLowerCase();
+  if (x < y) {return -1;}
+  if (x > y) {return 1;}
+  return 0;
+  }); 
+   results.forEach(result => {    
+     table.innerHTML += displayUser(result)
+   })   
+   console.log(results)
+   } else if (dropdownSortValue === "des") {
+    let results = users.sort(function(a, b) {
+    let x = a.name.toLowerCase();
+    let y = b.name.toLowerCase();
+    if (x > y) {return -1;}
+    if (x < y) {return 1;}
+    return 0;
+  }); 
+   results.forEach(result => {    
+     table.innerHTML += displayUser(result)
+   })  
+     console.log(results)
+   }
+}
 
   window.onload = () => {
     getUsers()  
